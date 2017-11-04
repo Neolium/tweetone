@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Tweetone</title>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/vuetify/0.16.9/vuetify.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <div class="input">
+            <v-text-field v-model="content" name="content" label="Text to analyze"> </v-text-field>
+        </div>
+        <div class="output">
+            <ul id="example-1">
+                <li v-for="tone in tones">
+                    {{ tone.tone_name }} ({{ tone.score }})
+                </li>
+            </ul>
+        </div>
+        <v-btn v-on:click.native="go" color="primary">Analyse</v-btn>
+    </div>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/5.5.2/Rx.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.3/vue.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vuetify/0.16.9/vuetify.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.4"></script>
+<script src="app.js"></script>
+</html>

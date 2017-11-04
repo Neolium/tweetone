@@ -1,0 +1,9 @@
+* {
+    font-family: sans-serif;
+}
+
+#app {
+    margin-top: 10%;
+    background-color: #EFEFEF;
+    padding: 5% 10%;
+}
