@@ -11,13 +11,21 @@
 </head>
 <body>
     <div id="app">
-        <div class="output">
-            <ul id="example-1">
-                <li v-for="tone in tones">
-                    {{ tone.tone_name }} ({{ tone.score }})
-                </li>
-            </ul>
-        </div>
+        <v-list>
+            <v-list-tile v-for="t in text">
+                <v-list-tile-content>
+                    <v-list-tile-title v-html="t"></v-list-tile-title>
+                </v-list-tile-content>
+            </v-list-tile>
+        </v-list>
+        <v-list two-line>
+            <v-list-tile v-for="tone in tones">
+                <v-list-tile-content>
+                    <v-list-tile-title v-html="tone.tone_name"></v-list-tile-title>
+                    <v-list-tile-sub-title v-html="tone.score"></v-list-tile-sub-title>
+                </v-list-tile-content>
+            </v-list-tile>
+        </v-list>
     </div>
 </body>
 
