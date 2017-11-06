@@ -31,9 +31,10 @@ app.post('/', (request, response, next) => {
     response.tones = []
 
     var result = T.get('search/tweets', {
-        q: request.body.hashtag,
-        count: 100,
-        result_type: 'popular'
+        q: '#' + request.body.hashtag,
+        lang: 'en',
+        count: 70,
+        result_type: 'recent'
     }, (err, data, answer) => {
         var tweets = data.statuses.map(o => {
             return {
