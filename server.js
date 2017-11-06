@@ -13,7 +13,9 @@ var analyzer = new ToneAnalyzerV3({
 
 app.get('/', (request, response) => {
     console.log(`${request.method} ${request.path} ${Date()}`)
-    
+
+    response.header('Access-Control-Allow-Origin', '*');
+
     var T = new Twit({
         consumer_key: '899sWOGu9LqBsnVksIlmgvOeE',
         consumer_secret: 'qeLK9cjSHP3tc3JJ1V48NJUEP5QJyTEiNdGmGuFdnyW7qHm8Cl',

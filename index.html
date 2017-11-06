@@ -11,9 +11,6 @@
 </head>
 <body>
     <div id="app">
-        <div class="input">
-            <v-text-field v-model="content" name="content" label="Text to analyze"> </v-text-field>
-        </div>
         <div class="output">
             <ul id="example-1">
                 <li v-for="tone in tones">
@@ -21,7 +18,6 @@
                 </li>
             </ul>
         </div>
-        <v-btn v-on:click.native="go" color="primary">Analyse</v-btn>
     </div>
 </body>
 
