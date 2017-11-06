@@ -18,24 +18,80 @@ var T = new Twit({
     timeout_ms: 60 * 1000,  // optional HTTP request timeout to apply to all requests.
 })
 
-app.get('/', (request, response) => {
+app.use(function(request, response, next) {
+    response.header('Access-Control-Allow-Origin', '*');
+    response.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+}).use(express.json())
+
+
+app.post('/', (request, response, next) => {
     console.log(`${request.method} ${request.path} ${Date()}`)
 
     response.tones = []
-    response.header('Access-Control-Allow-Origin', '*');
 
     var result = T.get('search/tweets', {
-        q: 'ethereum',
+        q: request.body.hashtag,
         count: 100,
         result_type: 'popular'
     }, (err, data, answer) => {
-        var text = data.statuses.map(o => o.text).join('. ')
-        analyzer.tone({ text: text }, (error, tone) => {
-            response.send({
-                text: text,
-                tones: tone.document_tone.tones
+        var tweets = data.statuses.map(o => {
+            return {
+                image: o.user.profile_image_url,
+                content: o.text,
+            }
+        })
+        if (tweets.length) {
+            analyzer.tone({ text: tweets.map(o => o.content).join('. ') }, (error, tone) => {
+                if (Boolean(error)) {
+                    console.error(error)
+                    response.send({error})
+                } else {
+                    response.send({
+                        tones: tone.document_tone.tones.map(o => {
+                            var color;
+                            switch (o.tone_id) {
+                                case 'joy':
+                                    color = 'orange'
+                                    break;
+                                case 'sadness':
+                                    color = 'brown'
+                                    break;
+                                case 'analytical':
+                                    color = 'blue'
+                                    break;
+                                case 'tentative':
+                                    color = 'red'
+                                    break;
+                                case 'confident':
+                                    color = 'green'
+                                    break;
+                                case 'anger':
+                                    color = 'black'
+                                    break;
+                                case 'fear':
+                                    color = 'purple'
+                                    break;
+                                default:
+                                    color = 'grey'
+                                    break;
+                            }
+                            return {
+                                score: o.score,
+                                color: color,
+                                tone_name: o.tone_name
+                            }
+                        }),
+                        tweets: tweets,
+                    });
+                }
             });
-        });
+        } else {
+            response.send({
+                tones: [],
+                tweets: []
+            })
+        }
     });
 })
 

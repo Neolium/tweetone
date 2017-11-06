@@ -2,8 +2,11 @@
     font-family: sans-serif;
 }
 
-#app {
-    margin-top: 10%;
-    background-color: #EFEFEF;
-    padding: 5% 10%;
+.bold {
+    font-weight: 900;
+}
+
+#populars {
+    max-height: 750px;
+    overflow: auto;
 }
