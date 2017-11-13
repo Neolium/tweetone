@@ -11,7 +11,7 @@ var app = new Vue({
         analyze: function() {
             if (Boolean(this.hashtag)) {
                 this.loading = true;
-                this.$http.post('http://localhost:4200/', {
+                this.$http.post('https://api.yoyobro.wtf/', {
                     hashtag: this.hashtag
                 }).then((data) => {
                     this.tones = data.body.tones
