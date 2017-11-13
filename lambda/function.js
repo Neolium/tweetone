@@ -16,13 +16,9 @@ var T = new Twit({
 })
 
 exports.handler = (event, context, callback) => {
-    console.log(event);
-    console.log(context);
-    
-    response.tones = []
 
     var result = T.get('search/tweets', {
-        q: '#bitcoin',
+        q: event.hashtag.charAt(0) == '#' ? event.hashtag : '#' + event.hashtag,
         lang: 'en',
         count: 70,
         result_type: 'recent'
