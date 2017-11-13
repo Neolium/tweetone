@@ -1,9 +1,5 @@
 var Twit = require('twit')
-var Rx = require('rxjs')
-var express = require('express')
 var ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
-
-var app = express()
 
 var analyzer = new ToneAnalyzerV3({
   username: '1d983e8a-1114-4d70-8e1d-e22342862aad',
@@ -19,44 +15,14 @@ var T = new Twit({
     timeout_ms: 60 * 1000,  // optional HTTP request timeout to apply to all requests.
 })
 
-app.use(function(request, response, next) {
-    response.header('Access-Control-Allow-Origin', '*');
-    response.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    next();
-}).use(express.json())
-
-app.get('/', (request, response) => {
-    var content = {}
-
-    content.love = [];
-
-    analyzer.tone({
-        text: '#bitcoin'
-    }, (error, tone) => {
-        content.love.push(tone)
-    })
-
-    analyzer.tone({
-        text: '#ethereum'
-    }, (error, tone) => {
-        content.love.push(tone)
-    })
-
-    setTimeout(function() {
-        var love = content;
-        response.send(content)
-    }, 5000);
-
-})
-
-
-app.post('/', (request, response, next) => {
-    console.log(`${request.method} ${request.path} ${Date()}`)
-
+exports.handler = (event, context, callback) => {
+    console.log(event);
+    console.log(context);
+    
     response.tones = []
 
     var result = T.get('search/tweets', {
-        q: '#' + request.body.hashtag,
+        q: '#bitcoin',
         lang: 'en',
         count: 70,
         result_type: 'recent'
@@ -70,10 +36,9 @@ app.post('/', (request, response, next) => {
         if (tweets.length) {
             analyzer.tone({ text: tweets.map(o => o.content).join('. ') }, (error, tone) => {
                 if (Boolean(error)) {
-                    console.error(error)
-                    response.send({error})
+                    console.error(error);
                 } else {
-                    response.send({
+                    callback(null, {
                         tones: tone.document_tone.tones.map(o => {
                             var color;
                             switch (o.tone_id) {
@@ -113,12 +78,11 @@ app.post('/', (request, response, next) => {
                 }
             });
         } else {
-            response.send({
+            callback(null, {
                 tones: [],
                 tweets: []
-            })
+            });
         }
     });
-})
-
-app.listen(4200, () => console.log('Server started on http://localhost:4200/'))
+    
+};

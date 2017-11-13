@@ -1,0 +1,15 @@
+{
+  "name": "lambda",
+  "version": "1.0.0",
+  "description": "",
+  "main": "function.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "twit": "^2.2.9",
+    "watson-developer-cloud": "^2.42.0"
+  },
+  "author": "Yoyobro",
+  "license": "ISC"
+}
