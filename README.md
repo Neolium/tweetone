@@ -1,6 +1,8 @@
 # Tweetone
 
-You can use it at http://yoyobro.wtf/
+Tweetone is a web tool to evaluate Twitter's tweets tones. It uses IBM Watson platform to perform the text analysis.
+
+You can try it at http://yoyobro.wtf/
 
 Please keep in mind that this project is standing by since I'm working on other pro projects.
 
